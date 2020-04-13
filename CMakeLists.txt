@@ -8,8 +8,6 @@ find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 set(CUDA_SEPARABLE_COMPILATION ON)
-#set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};--std=c++11;-arch=sm_50;-O3)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 include_directories(
         src

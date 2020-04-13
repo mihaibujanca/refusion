@@ -115,7 +115,7 @@ slambench::outputs::Output *render_frame_output;
 
 bool sb_new_slam_configuration(SLAMBenchLibraryHelper * slam_settings)  {
 
-    slam_settings->addParameter(TypedParameter<float>("s", "voxelSize",     "Voxel size in meters",      &voxel_size, &default_voxel_size));
+    slam_settings->addParameter(TypedParameter<float>("", "voxelSize",     "Voxel size in meters",      &voxel_size, &default_voxel_size));
     slam_settings->addParameter(TypedParameter<float>("td", "truncationDistance",          "Voxel Truncation Distance",           &truncation_distance,      &default_truncation_distance));
     slam_settings->addParameter(TypedParameter<float>("maxd", "maxDepth",            "Maximum sensor depth that is considered",             &max_sensor_depth, &default_max_sensor_depth));
     slam_settings->addParameter(TypedParameter<float>("mind", "minDepth",   " Minimum sensor depth that is considered",    &min_sensor_depth, &default_min_sensor_depth));
@@ -129,14 +129,14 @@ bool sb_new_slam_configuration(SLAMBenchLibraryHelper * slam_settings)  {
     slam_settings->addParameter(TypedParameter<int>  ("it1", "maxIt1",      "Maximum number of iteration per subsampling level 1",       &max_iterations_per_level_1,      &default_max_iterations_per_level_1));
     slam_settings->addParameter(TypedParameter<int>("it2", "maxIt2",        "Maximum number of iteration per subsampling level 2",        &max_iterations_per_level_2       , &default_max_iterations_per_level_2       ));
 
-    slam_settings->addParameter(TypedParameter<int>("ds0", "reloc",           "Downsampling level 0",           &downsample_0          , &default_downsample_0          ));
-    slam_settings->addParameter(TypedParameter<int>("ds1", "fastOdom",        "Downsampling level 1",        &downsample_1       , &default_downsample_1       ));
-    slam_settings->addParameter(TypedParameter<int>("ds2", "so3",             "Downsampling level 2",             &downsample_2            , &default_downsample_2            ));
+    slam_settings->addParameter(TypedParameter<int>("ds0", "",           "Downsampling level 0",           &downsample_0          , &default_downsample_0          ));
+    slam_settings->addParameter(TypedParameter<int>("ds1", "",        "Downsampling level 1",        &downsample_1       , &default_downsample_1       ));
+    slam_settings->addParameter(TypedParameter<int>("ds2", "",             "Downsampling level 2",             &downsample_2            , &default_downsample_2            ));
 
     slam_settings->addParameter(TypedParameter<float>("minincr", "minIncrement", "Minimum norm of the increment to terminate the least-squares algorithm", &min_increment, &default_min_increment));
     slam_settings->addParameter(TypedParameter<float>("reg", "regularisation", "Initial regularization term of Levenberg-Marquardt", &regularization, &default_regularization));
     slam_settings->addParameter(TypedParameter<float>("hub", "huber", "Constant used by the Huber estimator", &huber_constant, &default_huber_constant));
-    slam_settings->addParameter(TypedParameter<float>("depth", "depthFactor", "Scale factor to convert the depth in meters", &depth_factor, &default_depth_factor));
+    slam_settings->addParameter(TypedParameter<float>("depth", "depthFactor", "Scale factor to convert the depth in millimeters", &depth_factor, &default_depth_factor));
 
     return true;
 }
@@ -218,22 +218,22 @@ bool sb_init_slam_system(SLAMBenchLibraryHelper * slam_settings) {
     virtual_rgb = new cv::Mat (rgb_sensor->Height, rgb_sensor->Width, CV_8UC3);
     imD   = new cv::Mat (depth_sensor->Height, depth_sensor->Width, CV_16UC1);
 
-    pose_output = new slambench::outputs::Output("Pose", slambench::values::VT_POSE, true);
+    pose_output = new slambench::outputs::Output("Pose ReFusion", slambench::values::VT_POSE, true);
     slam_settings->GetOutputManager().RegisterOutput(pose_output);
 
-    pointcloud_output = new slambench::outputs::Output("PointCloud", slambench::values::VT_COLOUREDPOINTCLOUD, true);
+    pointcloud_output = new slambench::outputs::Output("PointCloud ReFusion", slambench::values::VT_COLOUREDPOINTCLOUD, true);
     pointcloud_output->SetKeepOnlyMostRecent(true);
     slam_settings->GetOutputManager().RegisterOutput(pointcloud_output);
 
-    depth_frame_output = new slambench::outputs::Output("Depth Frame", slambench::values::VT_FRAME);
+    depth_frame_output = new slambench::outputs::Output("Depth Frame ReFusion", slambench::values::VT_FRAME);
     depth_frame_output->SetKeepOnlyMostRecent(true);
     slam_settings->GetOutputManager().RegisterOutput(depth_frame_output);
 
-    render_frame_output = new slambench::outputs::Output("Rendered frame", slambench::values::VT_FRAME);
+    render_frame_output = new slambench::outputs::Output("Rendered frame ReFusion", slambench::values::VT_FRAME);
     render_frame_output->SetKeepOnlyMostRecent(true);
     slam_settings->GetOutputManager().RegisterOutput(render_frame_output);
 
-    rgb_frame_output = new slambench::outputs::Output("RGB Frame", slambench::values::VT_FRAME);
+    rgb_frame_output = new slambench::outputs::Output("RGB Frame ReFusion", slambench::values::VT_FRAME);
     rgb_frame_output->SetKeepOnlyMostRecent(true);
     slam_settings->GetOutputManager().RegisterOutput(rgb_frame_output);
 
