@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 project(refusion)
-
 #add_compile_options(-std=c++11)
 
 find_package(CUDA REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
+set(CMAKE_CXX_FLAGS "-std=c++11") # Eigen raises deprecated declarations warning.
 
 set(CUDA_SEPARABLE_COMPILATION ON)
 
@@ -25,7 +25,7 @@ cuda_add_library(refusion SHARED
         src/tsdfvh/hash_table.cu
         src/tsdfvh/tsdf_volume.cu
         src/tracker/tracker.cu
-        OPTIONS -Xcompiler -fPIC)
+        OPTIONS -O3 -std=c++11 -Xcompiler -fPIC)
 
 target_link_libraries(refusion eigen_wrapper ${CUDA_LIBRARIES})
 

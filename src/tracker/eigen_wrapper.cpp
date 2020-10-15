@@ -1,5 +1,5 @@
 // Copyright 2019 Emanuele Palazzolo (emanuele.palazzolo@uni-bonn.de), Cyrill Stachniss, University of Bonn
-#include <tracker/eigen_wrapper.h>
+#include "eigen_wrapper.h"
 #include <Eigen/Cholesky>
 #include <unsupported/Eigen/MatrixFunctions>
 
